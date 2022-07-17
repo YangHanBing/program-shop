@@ -2,6 +2,8 @@ import axios from 'axios'
 import {
   ElMessage
 } from 'element-plus'
+// 引入封装订单loading加载
+import loading from './loading'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 10000
@@ -9,14 +11,17 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
+    loading.open()
     return config
   },
   (err) => {
+    loading.close()
     return Promise.reject(err)
   })
 // 响应拦截器
 service.interceptors.response.use(
   (res) => {
+    loading.close()
     if (res.data.msg === 'ok') {
       return res.data.data
     }
