@@ -19,10 +19,7 @@ export default {
       commit
     }, payload) {
       const res = await User.login(payload)
-      console.log(res)
-      // if (res.msg === 'ok') {
-      //   commit('setToken', res.data.token)
-      // }
+      commit('setToken', res.token)
       return res
     }
   }
