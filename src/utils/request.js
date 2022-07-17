@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '../store'
 import {
   ElMessage
 } from 'element-plus'
@@ -11,6 +12,9 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
+    // 将token发送给后台
+    const token = store.getters.token
+    if (token) config.headers.token = token
     loading.open()
     return config
   },

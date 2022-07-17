@@ -45,7 +45,10 @@
 import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { ElNotification } from 'element-plus'
 const store = useStore()
+const router = useRouter()
 const loginInfo = reactive({
   password: 'admin',
   username: 'admin'
@@ -59,7 +62,14 @@ const loginForm = ref(null)
 const handleLoginSubmit = () => {
   loginForm.value.validate(async (valid) => {
     if (valid) {
-      store.dispatch('user/login', loginInfo)
+      const res = store.dispatch('user/login', loginInfo)
+      if (res) {
+        router.push('/')
+        ElNotification({
+          message: '登录成功',
+          type: 'success'
+        })
+      }
     }
   })
 }
