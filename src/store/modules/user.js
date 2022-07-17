@@ -3,6 +3,7 @@ import {
   setItem
 } from '../../utils/storage'
 import User from '../../api/user'
+import router from '../../router'
 export default {
   namespaced: true,
   state: {
@@ -20,6 +21,7 @@ export default {
     }, payload) {
       const res = await User.login(payload)
       commit('setToken', res.token)
+      router.push('/')
       return res
     }
   }
