@@ -4,7 +4,8 @@
 
 <style lang="scss">
 html,
-body {
+body,
+#app {
   height: 100%;
   width: 100%;
 }
