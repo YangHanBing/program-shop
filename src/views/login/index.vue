@@ -33,7 +33,7 @@
               />
             </el-form-item>
             <el-form-item>
-              <div class="loginBtn">登录</div>
+              <div class="loginBtn" @click="handleLoginSubmit">登录</div>
             </el-form-item>
           </el-form>
         </div></el-col
@@ -42,16 +42,27 @@
   </div>
 </template>
 <script setup>
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
+import { useStore } from 'vuex'
+const store = useStore()
 const loginInfo = reactive({
-  password: '',
-  username: ''
+  password: 'admin',
+  username: 'admin'
 })
 const rules = reactive({
   username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
   password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
 })
+const loginForm = ref(null)
+// 登录事件
+const handleLoginSubmit = () => {
+  loginForm.value.validate(async (valid) => {
+    if (valid) {
+      store.dispatch('user/login', loginInfo)
+    }
+  })
+}
 </script>
 <style scoped lang="scss">
 .el-row {
