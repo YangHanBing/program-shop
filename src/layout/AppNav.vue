@@ -5,8 +5,10 @@
     </div>
     <div class="right">
       <div class="right_l">
-        <el-icon><Fold /></el-icon>
-        <el-icon><Refresh /></el-icon>
+        <el-icon @click="changeMenus" class="hamburger hover-effect">
+          <svg-icon v-if="isCollapse" icon="hamburger-opened"></svg-icon>
+          <svg-icon v-else icon="hamburger-closed"></svg-icon>
+        </el-icon>
       </div>
       <div class="right_r">
         <el-icon class="open"><FullScreen /></el-icon>
