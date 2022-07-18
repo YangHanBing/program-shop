@@ -7,12 +7,26 @@ import router from '../../router'
 export default {
   namespaced: true,
   state: {
-    token: getItem('token') || ''
+    token: getItem('token') || '',
+    userInfo: '',
+    menus: '',
+    ruleNames: ''
   },
   mutations: {
     setToken(state, token) {
       state.token = token
       setItem('token', token)
+    },
+    // 将用户信息存到vuex
+    setUserInfo(state, userInfo) {
+      const avatar = userInfo.avatar
+      const username = userInfo.username
+      state.userInfo = {
+        avatar,
+        username
+      }
+      state.menus = userInfo.menus
+      state.ruleNames = userInfo.ruleNames
     }
   },
   actions: {
@@ -31,6 +45,8 @@ export default {
     }) {
       const res = await User.getUserInfo()
       console.log(res)
+      commit('setUserInfo', res)
+      return res
     }
   }
 }
