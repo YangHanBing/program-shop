@@ -16,4 +16,10 @@ console.log(menus)
 .el-menu-vertical-demo {
   border-right: none;
 }
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: red;
+}
 </style>

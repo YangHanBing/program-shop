@@ -20,7 +20,6 @@ export default {
     },
     // 将用户信息存到vuex
     setUserInfo(state, userInfo) {
-      console.log(userInfo)
       const avatar = userInfo.avatar
       const username = userInfo.username
       state.userInfo = {

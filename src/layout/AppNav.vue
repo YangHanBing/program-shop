@@ -5,13 +5,23 @@
     </div>
     <div class="right">
       <div class="right_l">
+        <!-- 折叠按钮 -->
         <el-icon @click="changeMenus" class="hamburger hover-effect">
           <svg-icon v-if="isCollapse" icon="hamburger-opened"></svg-icon>
           <svg-icon v-else icon="hamburger-closed"></svg-icon>
         </el-icon>
+        <!-- 刷新按钮 -->
+        <el-tooltip effect="dark" content="刷新" placement="bottom">
+          <el-icon @click="refresh" class="reloadIcon hover-effect">
+            <svg-icon icon="reload"></svg-icon>
+          </el-icon>
+        </el-tooltip>
       </div>
       <div class="right_r">
-        <el-icon class="open"><FullScreen /></el-icon>
+        <!-- 全屏 -->
+        <el-icon class="icon">
+          <svg-icon :icon="isFullscreen ? 'aim' : 'screenfull'"></svg-icon>
+        </el-icon>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             <div class="user">
@@ -113,7 +123,7 @@ const handleLogout = () => {
     height: 64px;
     display: flex;
     align-items: center;
-    .open {
+    .icon {
       margin-right: 30px;
     }
     .user {
