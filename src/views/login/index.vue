@@ -45,6 +45,7 @@
 import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import { useStore } from 'vuex'
+import { ElNotification } from 'element-plus'
 const store = useStore()
 const loginInfo = reactive({
   password: 'admin',
@@ -60,6 +61,10 @@ const handleLoginSubmit = () => {
   loginForm.value.validate(async (valid) => {
     if (valid) {
       store.dispatch('user/login', loginInfo)
+      ElNotification({
+        message: '登录成功',
+        type: 'success'
+      })
     }
   })
 }

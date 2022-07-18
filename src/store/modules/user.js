@@ -16,6 +16,7 @@ export default {
     }
   },
   actions: {
+    // 调用登录接口
     async login({
       commit
     }, payload) {
@@ -23,6 +24,13 @@ export default {
       commit('setToken', res.token)
       router.push('/')
       return res
+    },
+    // 获取用户信息
+    async getUserInfo({
+      commit
+    }) {
+      const res = await User.getUserInfo()
+      console.log(res)
     }
   }
 }
