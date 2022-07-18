@@ -22,6 +22,7 @@ module.exports = {
       },
     ],
     // 缩进
-    'indent': ['off', 2]
+    'indent': ['off', 2],
+    'vue/comment-directive': 'off'
   }
 }

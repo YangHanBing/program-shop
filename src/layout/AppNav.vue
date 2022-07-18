@@ -13,8 +13,8 @@
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             <div class="user">
-              <img :src="avatar" class="avatar" />
-              <p>{{ username }}</p>
+              <img :src="res.avatar" class="avatar" />
+              <p>{{ res.username }}</p>
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>
@@ -35,9 +35,12 @@
 </template>
 <script setup>
 import { useStore } from 'vuex'
+import { computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 const store = useStore()
-const { avatar, username } = store.getters.userInfo
+const res = computed(() => {
+  return store.getters.userInfo
+})
 // 功能事件
 const handleCommand = (command) => {
   switch (command) {
@@ -118,7 +121,7 @@ const handleLogout = () => {
     .avatar {
       width: 25px;
       height: 25px;
-      border-radius: 50%;
+      border-radius: 25px;
       margin-right: 5px;
       background-color: #ccc;
     }
