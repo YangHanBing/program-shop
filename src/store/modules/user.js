@@ -1,5 +1,6 @@
 import {
   getItem,
+  removeItem,
   setItem
 } from '../../utils/storage'
 import User from '../../api/user'
@@ -46,6 +47,16 @@ export default {
       const res = await User.getUserInfo()
       commit('setUserInfo', res)
       return res
+    },
+    // 退出登录
+    async logout({
+      commit
+    }) {
+      await User.logout()
+      commit('setToken', '')
+      commit('setUserInfo', '')
+      removeItem('token')
+      router.push('/login')
     }
   }
 }

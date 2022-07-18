@@ -50,14 +50,15 @@ getUserInfo()
 .el-header {
   background-color: #4338ca;
   color: #fff;
-  height: 60px;
+  height: 64px;
+  padding: 0;
 }
 .box {
   padding: 0;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 64px);
   .content {
     background-color: #f3f4f6;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 64px);
   }
 }
 </style>

@@ -38,7 +38,7 @@ const getStatistics3 = () => {
 // 退出登录接口
 const logout = () => {
   return request({
-    url: '/admin/login',
+    url: '/admin/logout',
     method: 'POST'
   })
 }
