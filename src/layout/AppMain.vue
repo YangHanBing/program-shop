@@ -1,5 +1,5 @@
 <template>
-  <div class="">cvdvdd</div>
+  <div class="">appmain</div>
 </template>
 <script setup></script>
 <style scoped lang="scss"></style>

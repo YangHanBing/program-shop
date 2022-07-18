@@ -44,7 +44,6 @@ export default {
       commit
     }) {
       const res = await User.getUserInfo()
-      console.log(res)
       commit('setUserInfo', res)
       return res
     }
