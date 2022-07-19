@@ -19,11 +19,7 @@
       </div>
       <div class="right_r">
         <!-- 全屏 -->
-        <el-tooltip effect="dark" content="全屏" placement="bottom">
-          <el-icon class="open">
-            <svg-icon icon="screenfull"></svg-icon>
-          </el-icon>
-        </el-tooltip>
+        <screenFull class="screen hover-effect"></screenFull>
         <!-- 头部下拉事件 -->
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
@@ -53,6 +49,7 @@ import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
+import screenFull from '@/components/screenFull'
 const store = useStore()
 const userInfo = computed(() => {
   return store.getters.userInfo
@@ -95,70 +92,5 @@ const handleLogout = () => {
 }
 </script>
 <style scoped lang="scss">
-.nav {
-  display: flex;
-  align-items: center;
-}
-.left {
-  width: 250px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .nav_img {
-    width: 120px;
-    height: 48px;
-  }
-}
-.right {
-  height: 64px;
-  width: calc(100vw - 250px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding-right: 20px;
-  .right_l {
-    width: 60px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .hamburger,
-    .reloadIcon {
-      padding: 24px 14px;
-    }
-    .hamburger:hover,
-    .reloadIcon:hover {
-      background-color: #4f46e5;
-    }
-  }
-  .right_r {
-    width: 150px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    .open {
-      margin-right: 20px;
-      padding: 24px 14px;
-    }
-    .open:hover {
-      background-color: #4f46e5;
-    }
-    .user {
-      display: flex;
-      align-items: center;
-    }
-    .avatar {
-      width: 25px;
-      height: 25px;
-      border-radius: 25px;
-      margin-right: 5px;
-      background-color: #ccc;
-    }
-    .el-dropdown {
-      color: #fff;
-    }
-  }
-}
+@import './styles/AppNav.scss';
 </style>
