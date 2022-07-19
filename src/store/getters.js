@@ -1,7 +1,8 @@
 const getters = {
   token: state => state.user.token,
   userInfo: state => state.user.userInfo,
-  menus: state => state.user.menus
+  menus: state => state.user.menus,
+  isCollapse: state => state.menus.isCollapse
 }
 
 export default getters

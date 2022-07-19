@@ -6,12 +6,9 @@
     <div class="right">
       <div class="right_l">
         <!-- 折叠按钮 -->
-        <!-- <el-icon @click="changeMenus" class="hamburger hover-effect">
+        <el-icon @click="changeMenus" class="hamburger hover-effect">
           <svg-icon v-if="isCollapse" icon="hamburger-opened"></svg-icon>
           <svg-icon v-else icon="hamburger-closed"></svg-icon>
-        </el-icon> -->
-        <el-icon class="hamburger hover-effect">
-          <svg-icon icon="hamburger-opened"></svg-icon>
         </el-icon>
         <!-- 刷新按钮 -->
         <el-tooltip effect="dark" content="刷新" placement="bottom">
@@ -27,11 +24,12 @@
             <svg-icon icon="screenfull"></svg-icon>
           </el-icon>
         </el-tooltip>
+        <!-- 头部下拉事件 -->
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             <div class="user">
-              <img :src="res.avatar" class="avatar" />
-              <p>{{ res.username }}</p>
+              <img :src="userInfo.avatar" class="avatar" />
+              <p>{{ userInfo.username }}</p>
               <el-icon class="el-icon--right">
                 <arrow-down />
               </el-icon>
@@ -56,9 +54,17 @@ import { computed } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
 const store = useStore()
-const res = computed(() => {
+const userInfo = computed(() => {
   return store.getters.userInfo
 })
+// 获取折叠状态
+const isCollapse = computed(() => {
+  return store.getters.isCollapse
+})
+// 折叠事件
+const changeMenus = () => {
+  store.commit('menus/setIsCollapse')
+}
 // 刷新事件
 const refresh = () => {
   location.reload()
