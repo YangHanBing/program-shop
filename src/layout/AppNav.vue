@@ -53,7 +53,7 @@
 <script setup>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
 const store = useStore()
 const res = computed(() => {
@@ -81,20 +81,9 @@ const handleLogout = () => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
+  }).then(async () => {
+    await store.dispatch('user/logout')
   })
-    .then(async () => {
-      await store.dispatch('user/logout')
-      ElMessage({
-        type: 'success',
-        message: '退出成功'
-      })
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '取消退出'
-      })
-    })
 }
 </script>
 <style scoped lang="scss">
