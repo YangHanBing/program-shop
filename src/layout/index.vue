@@ -42,6 +42,7 @@ const isCollapse = computed(() => {
     background-color: #f3f4f6;
     height: 800px;
     overflow: auto;
+    padding: 0;
   }
 }
 </style>
