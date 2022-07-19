@@ -60,7 +60,9 @@ const res = computed(() => {
   return store.getters.userInfo
 })
 // 刷新事件
-const refresh = () => {}
+const refresh = () => {
+  location.reload()
+}
 // 功能事件
 const handleCommand = (command) => {
   switch (command) {
