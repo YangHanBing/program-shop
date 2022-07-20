@@ -109,7 +109,8 @@ const handleClear = () => {
 <style scoped lang="scss">
 .tagsview {
   position: relative;
-  background-color: #f3f4f6;
+  background-color: #f3f4f6 !important;
+  z-index: 999;
   .demo-tabs {
     position: relative;
     top: -5px;

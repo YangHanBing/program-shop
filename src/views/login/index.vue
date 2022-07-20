@@ -60,11 +60,17 @@ const loginForm = ref(null)
 const handleLoginSubmit = () => {
   loginForm.value.validate(async (valid) => {
     if (valid) {
-      store.dispatch('user/login', loginInfo)
-      ElNotification({
-        message: '登录成功',
-        type: 'success'
-      })
+      try {
+        const res = store.dispatch('user/login', loginInfo)
+        if (res) {
+          ElNotification({
+            message: '登录成功',
+            type: 'success'
+          })
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   })
 }

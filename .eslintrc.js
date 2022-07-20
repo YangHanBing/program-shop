@@ -24,6 +24,8 @@ module.exports = {
     // 缩进
     'indent': ['off', 2],
     'vue/comment-directive': 'off',
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'vue/no-mutating-props': 'off',
+    'vue/no-parsing-error': 'off'
   }
 }

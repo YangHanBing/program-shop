@@ -29,6 +29,7 @@ const isCollapse = computed(() => {
   top: 64px;
   padding: 5px 10px;
   box-sizing: border-box;
+  overflow: auto;
 }
 .box {
   padding: 60px 20px 20px 20px;
