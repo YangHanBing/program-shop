@@ -24,7 +24,7 @@
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             <div class="user">
-              <img :src="userInfo.avatar" class="avatar" />
+              <el-avatar class="avatar" :size="30" :src="userInfo.avatar" />
               <p>{{ userInfo.username }}</p>
               <el-icon class="el-icon--right">
                 <arrow-down />

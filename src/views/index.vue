@@ -3,6 +3,10 @@
 </template>
 <script setup>
 import User from '../api/user'
+// 获取用户信息
+// const getUserInfo = async () => {
+//   await User.getUserInfo()
+// }
 // 获取首页信息1
 const getStatistics1 = async () => {
   await User.getStatistics1()
@@ -16,6 +20,7 @@ const getStatistics3 = async () => {
   await User.getStatistics3()
 }
 // 进入主页后直接触发的事件
+// getUserInfo()
 getStatistics1()
 getStatistics2()
 getStatistics3()

@@ -53,10 +53,13 @@ export default {
       commit
     }) {
       await User.logout()
-      commit('setToken', '')
-      commit('setUserInfo', '')
+      // commit('setToken', '')
+      // commit('setUserInfo', '')
       removeItem('token')
+      removeItem('tagsview')
       router.push('/login')
+      // 想清空vuex中的数据，让页面重新加载就行了
+      window.location.reload()
     }
   }
 }
