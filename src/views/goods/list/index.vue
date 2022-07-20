@@ -6,6 +6,9 @@
           switch
           :searchForm="searchForm"
           :typeList="typeList"
+          :navFormColumn="navFormColumn"
+          :NavFormActions="NavFormActions"
+          ref="handleSearch"
           @handleSearch="handleSearch"
           @handleReset="handleReset"
         ></NavForm>
@@ -22,10 +25,53 @@
 import goodsApi from '@/api/goodsApi'
 import { ref, reactive } from 'vue'
 import NavForm from '@/components/NavForm'
+import goodsData from './goodsData.js'
+console.log(goodsData)
 const activeName = ref('all')
-const searchForm = reactive({})
+const searchForm = reactive({
+  title: '',
+  category_id: ''
+})
 const goodsList = reactive({})
 const typeList = reactive({})
+const navFormColumn = reactive([
+  {
+    type: 'input',
+    label: '关键词',
+    class: 'searchname',
+    size: 'small',
+    placeholder: '商品名称',
+    prop: 'title'
+  },
+  {
+    type: 'select',
+    label: '商品分类',
+    size: 'small',
+    placeholder: '请选择商品分类',
+    prop: 'category_id',
+    cateType: typeList
+  }
+])
+const NavFormActions = reactive([
+  {
+    size: 'small',
+    type: 'primary',
+    title: '新增'
+  },
+  {
+    size: 'small',
+    type: 'danger',
+    title: '批量删除'
+  },
+  {
+    size: 'small',
+    title: '上架'
+  },
+  {
+    size: 'small',
+    title: '下架'
+  }
+])
 // 获取商品列表
 const getGoodsList = async () => {
   const res = await goodsApi.getGoodsList({ tab: 'all' })
@@ -44,7 +90,9 @@ const handleClick = (tab, event) => {
   console.log(tab, event)
 }
 // 搜索事件
-const handleSearch = () => {}
+const handleSearch = () => {
+  console.log('000')
+}
 // 重置事件
 const handleReset = () => {}
 </script>
