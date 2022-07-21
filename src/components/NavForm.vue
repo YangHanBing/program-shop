@@ -104,11 +104,6 @@ const handleReset = () => {
 </script>
 <style scoped lang="scss">
 .container {
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  box-sizing: border-box;
-  padding: 20px;
   .demo-form-inline {
     margin: 0 0 10px 30px;
     position: relative;

@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <el-tabs v-model="tab" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane v-for="item in goodsNavData" v-bind="item">
+      <el-tab-pane v-for="item in goodsNavData" v-bind="item" class="container">
         <NavForm
           switch
           :searchForm="searchForm"
@@ -10,8 +10,71 @@
           :NavFormActions="NavFormActions.value"
           @handleSearch="handleSearch"
           @handleReset="handleReset"
-        ></NavForm
-      ></el-tab-pane>
+        ></NavForm>
+        <el-table
+          ref="multipleTableRef"
+          :data="goodsList.value"
+          style="width: 100%"
+        >
+          <el-table-column align="center" type="selection" width="55" />
+          <el-table-column label="商品" width="300">
+            <template v-slot="scope">
+              <div class="goods_box">
+                <img :src="scope.row.cover" class="goods_img" />
+                <div class="desc">
+                  <p>{{ scope.row.title }}</p>
+                  <div class="price_box">
+                    <p class="price">￥{{ scope.row.min_price }}</p>
+                    <p>￥{{ scope.row.min_oprice }}</p>
+                  </div>
+                  <!-- <p>分类: {{ scope.row.category.name }}</p> -->
+                  <p>分类:</p>
+                  <p>创建时间: {{ scope.row.create_time }}</p>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="实际销量"
+            prop="discount"
+          ></el-table-column>
+          <el-table-column align="center" label="商品状态" prop="status">
+            <template v-slot="scope">
+              <el-tag v-if="scope.row.status == '0'" type="danger">仓库</el-tag>
+              <el-tag v-if="scope.row.status == '1'" type="success"
+                >上架</el-tag
+              ></template
+            >
+          </el-table-column>
+          <el-table-column align="center" label="审核状态" prop="ischeck">
+            <template v-slot="scope">
+              <p v-if="scope.row.ischeck == '1'">通过</p>
+              <p v-if="scope.row.ischeck == '2'">拒绝</p>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="总库存"
+            prop="stock"
+          ></el-table-column>
+          <el-table-column align="center" label="操作" width="350">
+            <div class="action">
+              <span>修改</span>
+              <span>商品规格</span>
+              <span>设置轮播图</span>
+              <span>商品详情</span>
+              <span>删除</span>
+            </div>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="50"
+          @current-change="handleCurrentChange"
+        />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -33,7 +96,7 @@ const NavFormActions = reactive([])
 const getAllGoodsList = async (tab) => {
   const res = await goodsApi.getGoodsList({ tab: tab })
   goodsList.value = res.list
-  console.log(goodsList)
+  console.log(goodsList.value)
 }
 getAllGoodsList(tab.value)
 // 获取分类列表
@@ -57,6 +120,7 @@ const handleClick = (tab) => {
   tab.value = tab.props.name
   // 获取点击的对应商品列表
   getAllGoodsList(tab.value)
+  // 获取navform的数据
   const res = goodsNavData.filter((item) => {
     return item.name === tab.props.name
   })
@@ -71,10 +135,59 @@ const handleSearch = () => {
 const handleReset = () => {
   alert('handleReset')
 }
+// 页码改变事件
+const handleCurrentChange = (page) => {
+  console.log(page)
+}
 </script>
 <style scoped lang="scss">
 .searchSwitch {
   background-color: #f5f7fa;
   color: #409eff;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 10px 20px 20px 20px;
+}
+.goods_box {
+  display: flex;
+  .desc {
+    font-size: 12px;
+    .price_box {
+      display: flex;
+      align-items: center;
+      .price {
+        font-size: 16px;
+        color: red;
+        margin-right: 10px;
+      }
+    }
+  }
+  .goods_img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+    position: relative;
+    top: 20px;
+  }
+}
+.action {
+  font-size: 12px;
+  color: #409eff;
+  .red {
+    color: red;
+  }
+  span {
+    margin-right: 15px;
+  }
+}
+.el-pagination {
+  margin-top: 20px;
+  box-sizing: border;
+  padding-left: 400px;
 }
 </style>
