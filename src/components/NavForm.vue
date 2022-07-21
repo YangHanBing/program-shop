@@ -62,7 +62,7 @@
 </template>
 <script setup>
 import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
-import { ref, defineExpose, defineProps } from 'vue'
+import { ref, defineEmits, defineProps } from 'vue'
 const switchStatus = ref(true)
 const switchTitle = ref('收起')
 const props = defineProps({
@@ -94,14 +94,13 @@ const handleSwitch = () => {
     switchTitle.value = '展开'
   }
 }
+const emits = defineEmits(['handleSearch', 'handleReset'])
 const handleSearch = () => {
-  this.$emit('handleSearch')
+  emits('handleSearch')
 }
 const handleReset = () => {
-  this.$emit('handleReset')
+  emits('handleReset')
 }
-// 第二步：暴露方法
-defineExpose({ handleSearch })
 </script>
 <style scoped lang="scss">
 .container {
