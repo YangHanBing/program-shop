@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+    <el-tabs v-model="tab" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane v-for="item in goodsNavData" v-bind="item">
         <NavForm
           switch
@@ -20,8 +20,7 @@ import goodsApi from '@/api/goodsApi'
 import { ref, reactive } from 'vue'
 import NavForm from '@/components/NavForm'
 import goodsNavData from './goodsNavData.js'
-console.log(goodsNavData)
-const activeName = ref('all')
+const tab = ref('all')
 const searchForm = reactive({
   title: '',
   category_id: ''
@@ -30,31 +29,34 @@ const goodsList = reactive({})
 const typeList = reactive({})
 const navFormColumn = reactive([])
 const NavFormActions = reactive([])
-// 获取商品列表
-const getGoodsList = async () => {
-  const res = await goodsApi.getGoodsList({ tab: 'all' })
+// 获取默认的全部商品列表
+const getAllGoodsList = async (tab) => {
+  const res = await goodsApi.getGoodsList({ tab: tab })
   goodsList.value = res.list
+  console.log(goodsList)
 }
-getGoodsList()
-console.log(goodsList)
+getAllGoodsList(tab.value)
 // 获取分类列表
 const getTypeList = async () => {
   const res = await goodsApi.getGoodsType()
   typeList.value = res
 }
 getTypeList()
-// 获取默认的全部商品
-const getAllGoods = () => {
+// 获取默认的全部商品头部
+const getAllGoodsNav = () => {
   const res = goodsNavData.filter((item) => {
     return item.name === 'all'
   })
   navFormColumn.value = res[0].navFormColumn
   NavFormActions.value = res[0].NavFormActions
 }
-getAllGoods()
+getAllGoodsNav()
 // tab切换
 const handleClick = (tab) => {
   console.log(tab.props.name)
+  tab.value = tab.props.name
+  // 获取点击的对应商品列表
+  getAllGoodsList(tab.value)
   const res = goodsNavData.filter((item) => {
     return item.name === tab.props.name
   })
