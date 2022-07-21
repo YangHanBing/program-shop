@@ -96,12 +96,12 @@ const typeList = reactive({})
 const navFormColumn = reactive([])
 const NavFormActions = reactive([])
 // 获取默认的全部商品列表
-const getAllGoodsList = async (page, tab) => {
-  const res = await goodsApi.getGoodsList(page, { tab: tab })
+const getAllGoodsList = async (page, data) => {
+  const res = await goodsApi.getGoodsList(page, data)
   total.value = res.totalCount
   goodsList.value = res.list
 }
-getAllGoodsList(page.value, tab.value)
+getAllGoodsList(page.value, { tab: tab.value })
 // 获取分类列表
 const getTypeList = async () => {
   const res = await goodsApi.getGoodsType()
@@ -122,7 +122,7 @@ const handleClick = (tab) => {
   console.log(tab.props.name)
   tab.value = tab.props.name
   // 获取点击的对应商品列表
-  getAllGoodsList(page.value, tab.value)
+  getAllGoodsList(page.value, { tab: tab.value })
   // 获取navform的数据
   const res = goodsNavData.filter((item) => {
     return item.name === tab.props.name
@@ -132,20 +132,40 @@ const handleClick = (tab) => {
 }
 // 局部刷新功能
 const handleRefresh = () => {
-  getAllGoodsList(page.value, tab.value)
-}
-// 搜索事件
-const handleSearch = () => {
-  alert('handleSearch')
-}
-// 重置事件
-const handleReset = () => {
-  alert('handleReset')
+  getAllGoodsList(page.value, { tab: tab.value })
 }
 // 页码改变事件
 const handleCurrentChange = (pages) => {
   page.value = pages
-  getAllGoodsList(page.value, tab.value)
+  getAllGoodsList(page.value, { tab: tab.value })
+}
+// 搜索事件
+const handleSearch = (row) => {
+  if (row.title && row.category_id) {
+    getAllGoodsList(page.value, {
+      tab: tab.value,
+      title: row.title,
+      category_id: row.category_id
+    })
+  } else if (row.title && !row.category_id) {
+    getAllGoodsList(page.value, {
+      tab: tab.value,
+      title: row.title
+    })
+  } else if (!row.title && row.category_id) {
+    getAllGoodsList(page.value, {
+      tab: tab.value,
+      category_id: row.category_id
+    })
+  } else if (!row.title && !row.category_id) {
+    getAllGoodsList(page.value, {
+      tab: tab.value
+    })
+  }
+}
+// 重置事件
+const handleReset = () => {
+  alert('handleReset')
 }
 </script>
 <style scoped lang="scss">

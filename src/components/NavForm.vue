@@ -26,7 +26,10 @@
           </el-select>
         </el-form-item>
         <el-form-item class="btn_box">
-          <el-button type="primary" size="small" @click="handleSearch"
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleSearch(searchForm)"
             >搜索</el-button
           >
           <el-button size="small" @click="handleReset">重置</el-button>
@@ -93,8 +96,8 @@ const emits = defineEmits(['handleRefresh', 'handleSearch', 'handleReset'])
 const handleRefresh = () => {
   emits('handleRefresh')
 }
-const handleSearch = () => {
-  emits('handleSearch')
+const handleSearch = (row) => {
+  emits('handleSearch', row)
 }
 const handleReset = () => {
   emits('handleReset')
