@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 // 获取商品列表接口
-const getGoodsList = (data) => {
+const getGoodsList = (page, data) => {
   return request({
-    url: '/admin/goods/1',
+    url: `/admin/goods/${page}`,
     method: 'GET',
     data
   })

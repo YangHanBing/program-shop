@@ -72,7 +72,7 @@
         <el-pagination
           background
           layout="prev, pager, next"
-          :total="50"
+          :total="total"
           @current-change="handleCurrentChange"
         />
       </el-tab-pane>
@@ -85,6 +85,8 @@ import { ref, reactive } from 'vue'
 import NavForm from '@/components/NavForm'
 import goodsNavData from './goodsNavData.js'
 const tab = ref('all')
+const page = ref(1)
+const total = ref(20)
 const searchForm = reactive({
   title: '',
   category_id: ''
@@ -94,12 +96,12 @@ const typeList = reactive({})
 const navFormColumn = reactive([])
 const NavFormActions = reactive([])
 // 获取默认的全部商品列表
-const getAllGoodsList = async (tab) => {
-  const res = await goodsApi.getGoodsList({ tab: tab })
+const getAllGoodsList = async (page, tab) => {
+  const res = await goodsApi.getGoodsList(page, { tab: tab })
+  total.value = res.totalCount
   goodsList.value = res.list
-  console.log(goodsList.value)
 }
-getAllGoodsList(tab.value)
+getAllGoodsList(page.value, tab.value)
 // 获取分类列表
 const getTypeList = async () => {
   const res = await goodsApi.getGoodsType()
@@ -120,7 +122,7 @@ const handleClick = (tab) => {
   console.log(tab.props.name)
   tab.value = tab.props.name
   // 获取点击的对应商品列表
-  getAllGoodsList(tab.value)
+  getAllGoodsList(page.value, tab.value)
   // 获取navform的数据
   const res = goodsNavData.filter((item) => {
     return item.name === tab.props.name
@@ -130,7 +132,7 @@ const handleClick = (tab) => {
 }
 // 局部刷新功能
 const handleRefresh = () => {
-  getAllGoodsList(tab.value)
+  getAllGoodsList(page.value, tab.value)
 }
 // 搜索事件
 const handleSearch = () => {
@@ -141,8 +143,9 @@ const handleReset = () => {
   alert('handleReset')
 }
 // 页码改变事件
-const handleCurrentChange = (page) => {
-  console.log(page)
+const handleCurrentChange = (pages) => {
+  page.value = pages
+  getAllGoodsList(page.value, tab.value)
 }
 </script>
 <style scoped lang="scss">
