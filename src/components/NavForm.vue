@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <el-form :inline="true" :model="props.searchForm" class="demo-form-inline">
+    <el-form
+      :inline="true"
+      ref="navForm"
+      :model="props.searchForm"
+      class="demo-form-inline"
+    >
       <template v-for="item in navFormColumn">
         <el-form-item v-if="item.type == 'input'" v-bind="item">
           <el-input
@@ -68,6 +73,7 @@ import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 import { ref, defineEmits, defineProps } from 'vue'
 const switchStatus = ref(true)
 const switchTitle = ref('收起')
+const navForm = ref(null)
 const props = defineProps({
   searchForm: {
     type: Object
@@ -100,6 +106,7 @@ const handleSearch = (row) => {
   emits('handleSearch', row)
 }
 const handleReset = () => {
+  navForm.value.resetFields()
   emits('handleReset')
 }
 </script>

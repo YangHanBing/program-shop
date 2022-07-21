@@ -7,6 +7,7 @@
           :searchForm="searchForm"
           :typeList="typeList"
           :navFormColumn="navFormColumn.value"
+          ref="navForm"
           :NavFormActions="NavFormActions.value"
           @handleRefresh="handleRefresh"
           @handleSearch="handleSearch"
@@ -134,11 +135,6 @@ const handleClick = (tab) => {
 const handleRefresh = () => {
   getAllGoodsList(page.value, { tab: tab.value })
 }
-// 页码改变事件
-const handleCurrentChange = (pages) => {
-  page.value = pages
-  getAllGoodsList(page.value, { tab: tab.value })
-}
 // 搜索事件
 const handleSearch = (row) => {
   if (row.title && row.category_id) {
@@ -165,7 +161,12 @@ const handleSearch = (row) => {
 }
 // 重置事件
 const handleReset = () => {
-  alert('handleReset')
+  getAllGoodsList(page.value, { tab: tab.value })
+}
+// 页码改变事件
+const handleCurrentChange = (pages) => {
+  page.value = pages
+  getAllGoodsList(page.value, { tab: tab.value })
 }
 </script>
 <style scoped lang="scss">
