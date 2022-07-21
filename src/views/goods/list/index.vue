@@ -8,6 +8,7 @@
           :typeList="typeList"
           :navFormColumn="navFormColumn.value"
           :NavFormActions="NavFormActions.value"
+          @handleRefresh="handleRefresh"
           @handleSearch="handleSearch"
           @handleReset="handleReset"
         ></NavForm>
@@ -127,6 +128,10 @@ const handleClick = (tab) => {
   navFormColumn.value = res[0].navFormColumn
   NavFormActions.value = res[0].NavFormActions
 }
+// 局部刷新功能
+const handleRefresh = () => {
+  getAllGoodsList(tab.value)
+}
 // 搜索事件
 const handleSearch = () => {
   alert('handleSearch')
@@ -141,53 +146,5 @@ const handleCurrentChange = (page) => {
 }
 </script>
 <style scoped lang="scss">
-.searchSwitch {
-  background-color: #f5f7fa;
-  color: #409eff;
-}
-.container {
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-  box-sizing: border-box;
-  padding: 10px 20px 20px 20px;
-}
-.goods_box {
-  display: flex;
-  .desc {
-    font-size: 12px;
-    .price_box {
-      display: flex;
-      align-items: center;
-      .price {
-        font-size: 16px;
-        color: red;
-        margin-right: 10px;
-      }
-    }
-  }
-  .goods_img {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-    border-radius: 5px;
-    position: relative;
-    top: 20px;
-  }
-}
-.action {
-  font-size: 12px;
-  color: #409eff;
-  .red {
-    color: red;
-  }
-  span {
-    margin-right: 15px;
-  }
-}
-.el-pagination {
-  margin-top: 20px;
-  box-sizing: border;
-  padding-left: 400px;
-}
+@import './goods.scss';
 </style>

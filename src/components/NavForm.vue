@@ -13,7 +13,7 @@
           v-bind="item"
         >
           <el-select
-            v-model.trim="searchForm[item.prop]"
+            v-model="searchForm[item.prop]"
             v-bind="item"
             :style="item.style"
           >
@@ -54,7 +54,7 @@
         >
       </div>
       <!-- 刷新游览器 -->
-      <el-icon @click="refresh" class="reloadIcon hover-effect">
+      <el-icon @click="handleRefresh" class="reloadIcon hover-effect">
         <svg-icon icon="reload"></svg-icon>
       </el-icon>
     </div>
@@ -80,11 +80,6 @@ const props = defineProps({
   },
   switch: Boolean
 })
-// 刷新游览器事件
-const refresh = () => {
-  // 要实现局部刷新
-  // location.reload()
-}
 // 控制商品分类的显示隐藏
 const handleSwitch = () => {
   switchStatus.value = !switchStatus.value
@@ -94,7 +89,10 @@ const handleSwitch = () => {
     switchTitle.value = '展开'
   }
 }
-const emits = defineEmits(['handleSearch', 'handleReset'])
+const emits = defineEmits(['handleRefresh', 'handleSearch', 'handleReset'])
+const handleRefresh = () => {
+  emits('handleRefresh')
+}
 const handleSearch = () => {
   emits('handleSearch')
 }
