@@ -58,6 +58,7 @@
           v-bind="item"
           v-for="(item, index) in NavFormActions"
           :key="index"
+          @click="handleNavFormAction(item.action)"
           >{{ item.title }}</el-button
         >
       </div>
@@ -98,7 +99,12 @@ const handleSwitch = () => {
     switchTitle.value = '展开'
   }
 }
-const emits = defineEmits(['handleRefresh', 'handleSearch', 'handleReset'])
+const emits = defineEmits([
+  'handleRefresh',
+  'handleSearch',
+  'handleReset',
+  'handleNavFormAction'
+])
 const handleRefresh = () => {
   emits('handleRefresh')
 }
@@ -108,6 +114,9 @@ const handleSearch = (row) => {
 const handleReset = () => {
   navForm.value.resetFields()
   emits('handleReset')
+}
+const handleNavFormAction = (action) => {
+  emits('handleNavFormAction', action)
 }
 </script>
 <style scoped lang="scss">

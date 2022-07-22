@@ -20,20 +20,24 @@ export default [{
     NavFormActions: [{
         size: 'small',
         type: 'primary',
-        title: '新增'
+        title: '新增',
+        action: 'add'
       },
       {
         size: 'small',
         type: 'danger',
-        title: '批量删除'
+        title: '批量删除',
+        action: 'del'
       },
       {
         size: 'small',
-        title: '上架'
+        title: '上架',
+        action: 'up'
       },
       {
         size: 'small',
-        title: '下架'
+        title: '下架',
+        action: 'down'
       }
     ]
   },
@@ -59,12 +63,14 @@ export default [{
     NavFormActions: [{
         size: 'small',
         type: 'primary',
-        title: '新增'
+        title: '新增',
+        action: 'add'
       },
       {
         size: 'small',
         type: 'danger',
-        title: '批量删除'
+        title: '批量删除',
+        action: 'del'
       }
     ]
   },
@@ -90,16 +96,19 @@ export default [{
     NavFormActions: [{
         size: 'small',
         type: 'primary',
-        title: '新增'
+        title: '新增',
+        action: 'add'
       },
       {
         size: 'small',
         type: 'danger',
-        title: '批量删除'
+        title: '批量删除',
+        action: 'del'
       },
       {
         size: 'small',
-        title: '下架'
+        title: '下架',
+        action: 'down'
       }
     ]
   },
@@ -125,16 +134,19 @@ export default [{
     NavFormActions: [{
         size: 'small',
         type: 'primary',
-        title: '新增'
+        title: '新增',
+        action: 'add'
       },
       {
         size: 'small',
         type: 'danger',
-        title: '批量删除'
+        title: '批量删除',
+        action: 'del'
       },
       {
         size: 'small',
-        title: '上架'
+        title: '上架',
+        action: 'up'
       }
     ]
   },
@@ -160,12 +172,14 @@ export default [{
     NavFormActions: [{
         size: 'small',
         type: 'primary',
-        title: '新增'
+        title: '新增',
+        action: 'add'
       },
       {
         size: 'small',
         type: 'danger',
-        title: '批量删除'
+        title: '批量删除',
+        action: 'del'
       }
     ]
   },
@@ -191,17 +205,20 @@ export default [{
     NavFormActions: [{
         size: 'small',
         type: 'primary',
-        title: '新增'
+        title: '新增',
+        action: 'add'
       },
       {
         size: 'small',
         type: 'warning',
-        title: '恢复商品'
+        title: '恢复商品',
+        action: 'recover'
       },
       {
         size: 'small',
         type: 'danger',
-        title: '彻底删除'
+        title: '彻底删除',
+        action: 'delete'
       }
     ]
   }

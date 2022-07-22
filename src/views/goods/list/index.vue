@@ -12,6 +12,7 @@
           @handleRefresh="handleRefresh"
           @handleSearch="handleSearch"
           @handleReset="handleReset"
+          @handleNavFormAction="handleNavFormAction"
         ></NavForm>
         <el-table
           ref="multipleTableRef"
@@ -49,7 +50,12 @@
               ></template
             >
           </el-table-column>
-          <el-table-column align="center" label="审核状态" prop="ischeck">
+          <el-table-column
+            align="center"
+            v-if="tab != 'delete'"
+            label="审核状态"
+            prop="ischeck"
+          >
             <template v-slot="scope">
               <p v-if="scope.row.ischeck == '1'">通过</p>
               <p v-if="scope.row.ischeck == '2'">拒绝</p>
@@ -60,14 +66,27 @@
             label="总库存"
             prop="stock"
           ></el-table-column>
-          <el-table-column align="center" label="操作" width="350">
+          <el-table-column
+            align="center"
+            label="操作"
+            v-if="tab != 'delete'"
+            width="350"
+          >
             <div class="action">
-              <span>修改</span>
+              <span @click="handleOpenDialog('edit')">修改</span>
               <span>商品规格</span>
               <span>设置轮播图</span>
               <span>商品详情</span>
               <span>删除</span>
             </div>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="操作"
+            v-if="tab == 'delete'"
+            width="350"
+          >
+            <p>暂无操作</p>
           </el-table-column>
         </el-table>
         <el-pagination
@@ -76,6 +95,97 @@
           :total="total"
           @current-change="handleCurrentChange"
         />
+        <el-drawer v-model="drawer" :title="dialogTitle" size="45%">
+          <div>
+            <el-form
+              ref="ruleFormRef"
+              :model="dialogForm"
+              :rules="rules"
+              label-width="100px"
+              class="demo-ruleForm"
+              status-icon
+            >
+              <el-form-item label="商品名称" prop="title">
+                <el-input
+                  v-model="dialogForm.title"
+                  placeholder="请输入商品名称,不超过60个字符"
+                />
+              </el-form-item>
+              <el-form-item label="封面" prop="cover">
+                <el-upload class="avatar-uploader" v-model="dialogForm.cover">
+                  <el-icon class="avatar-uploader-icon"><Plus /></el-icon>
+                </el-upload>
+              </el-form-item>
+
+              <el-form-item label="商品分类" prop="category_id">
+                <el-select
+                  v-model="dialogForm.category_id"
+                  placeholder="选择所属商品分类"
+                >
+                  <el-option
+                    v-for="(item, index) in typeList.value"
+                    :key="index"
+                    :label="item.name"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="商品描述" prop="desc">
+                <el-input
+                  v-model="dialogForm.desc"
+                  type="textarea"
+                  placeholder="选填，商品买点"
+                />
+              </el-form-item>
+              <el-form-item label="单位" prop="unit">
+                <el-input v-model="dialogForm.unit" class="Company" />
+              </el-form-item>
+              <el-form-item label="总库存" prop="stock">
+                <el-input-number
+                  v-model="dialogForm.stock"
+                  controls-position="right"
+                  @change="handleChange"
+                  :min="0"
+                />
+                <p class="numdesc">件</p>
+              </el-form-item>
+              <el-form-item label="库存预警" prop="min_stock">
+                <el-input-number
+                  v-model="dialogForm.min_stock"
+                  controls-position="right"
+                  :min="0"
+                />
+                <p class="numdesc">件</p>
+              </el-form-item>
+              <el-form-item label="最低销售价" prop="min_oprice">
+                <el-input-number
+                  v-model="dialogForm.min_oprice"
+                  controls-position="right"
+                  :min="0"
+                />
+                <p class="numdesc">元</p>
+              </el-form-item>
+              <el-form-item label="最低原价" prop="min_price">
+                <el-input-number
+                  v-model="dialogForm.min_price"
+                  controls-position="right"
+                  :min="0"
+                />
+                <p class="numdesc">元</p>
+              </el-form-item>
+              <el-form-item label="库存显示" prop="status">
+                <el-radio-group v-model="dialogForm.status">
+                  <el-radio :label="0">隐藏</el-radio>
+                  <el-radio :label="1">显示</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary">提交</el-button>
+                <el-button>取消</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-drawer>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -85,6 +195,8 @@ import goodsApi from '@/api/goodsApi'
 import { ref, reactive } from 'vue'
 import NavForm from '@/components/NavForm'
 import goodsNavData from './goodsNavData.js'
+import { Plus } from '@element-plus/icons-vue'
+
 const tab = ref('all')
 const page = ref(1)
 const total = ref(20)
@@ -96,6 +208,18 @@ const goodsList = reactive({})
 const typeList = reactive({})
 const navFormColumn = reactive([])
 const NavFormActions = reactive([])
+const drawer = ref(false) // 模态框
+const dialogTitle = ref('新增')
+// 模态框表单
+const dialogForm = reactive({
+  unit: '件',
+  stock: 100,
+  min_stock: 10,
+  min_oprice: 0,
+  min_price: 0,
+  status: 1
+})
+const rules = reactive([])
 // 获取默认的全部商品列表
 const getAllGoodsList = async (page, data) => {
   const res = await goodsApi.getGoodsList(page, data)
@@ -168,6 +292,36 @@ const handleCurrentChange = (pages) => {
   page.value = pages
   getAllGoodsList(page.value, { tab: tab.value })
 }
+// 头部表单事件
+const handleNavFormAction = (action) => {
+  if (action === 'add') return handleOpenDialog('add')
+  if (action === 'del') return handleSelectedDel()
+  if (action === 'up') return handleUp()
+  if (action === 'down') return handleDown()
+  if (action === 'delete') return handleDelete()
+  if (action === 'recover') return handleRecover()
+}
+// 打开模态框事件
+const handleOpenDialog = (action) => {
+  if (action === 'add') {
+    dialogTitle.value = '新增'
+  } else if (action === 'edit') {
+    dialogTitle.value = '修改'
+  }
+  drawer.value = true
+}
+// 数量改变事件
+const handleChange = () => {}
+// 批量删除事件
+const handleSelectedDel = () => {}
+// 上架事件
+const handleUp = () => {}
+// 下架事件
+const handleDown = () => {}
+// 恢复商品事件
+const handleRecover = () => {}
+// 彻底删除事件
+const handleDelete = () => {}
 </script>
 <style scoped lang="scss">
 @import './goods.scss';
