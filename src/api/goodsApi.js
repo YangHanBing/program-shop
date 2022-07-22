@@ -47,11 +47,10 @@ const changeStatusGoods = (data) => {
   })
 }
 // 获取商品信息 /admin/goods/read/48
-const readGoods = (data) => {
+const readGoods = (id) => {
   return request({
-    url: '/admin/goods/read',
-    method: 'GET',
-    data
+    url: `/admin/goods/read/${id}`,
+    method: 'GET'
   })
 }
 // 更新商品规格 /admin/goods/updateskus/48
