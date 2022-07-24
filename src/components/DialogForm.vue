@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-drawer v-model="dialogVisible" :title="title" size="45%">
+    <el-drawer
+      v-model="dialogVisible"
+      :title="title"
+      size="45%"
+      wrapperClosable="false"
+    >
       <el-form
         :model="props.addInfo"
         :rules="rules"
@@ -32,7 +37,7 @@
             </el-date-picker>
           </el-form-item>
           <!-- 下拉菜单 -->
-          <el-form-item v-if="item.type == 'select'" v-bind="item">
+          <!-- <el-form-item v-if="item.type == 'select'" v-bind="item">
             <el-select
               v-model.trim="addInfo[item.prop]"
               v-bind="item"
@@ -45,7 +50,7 @@
                 :value="item.type"
               ></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <!-- 文本域 -->
           <el-form-item v-if="item.type == 'textarea'" v-bind="item">
             <el-input
@@ -54,12 +59,13 @@
             ></el-input>
           </el-form-item>
           <!-- 操作 -->
-          <el-form-item v-if="item.type == 'action'" v-bind="item">
-            <el-button @click="handleClose">取 消</el-button>
-            <el-button type="primary" @click="handleAddOk">确 定</el-button>
-          </el-form-item>
+          <!-- <el-form-item v-if="item.type == 'action'" v-bind="item"> -->
         </template>
       </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button type="primary" @click="handleAddOk">确 定</el-button>
+      </span>
     </el-drawer>
   </div>
 </template>

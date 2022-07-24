@@ -4,6 +4,9 @@ import {
   reactive
 } from 'vue'
 import goodsNavData from '@/views/goods/list/goodsNavData.js'
+import {
+  ElNotification
+} from 'element-plus'
 export default function () {
   const tab = ref('all')
   const page = ref(1)
@@ -15,9 +18,10 @@ export default function () {
     min_stock: 10,
     min_oprice: 0,
     min_price: 0,
-    status: 1
+    status: 1,
+    stock_display: 1
   })
-  // const rules = reactive([])
+  const addRuleForm = ref(null)
   const goodsList = reactive({})
   const typeList = reactive({})
   const navFormColumn = reactive([])
@@ -127,7 +131,8 @@ export default function () {
         min_stock: 10,
         min_oprice: 0,
         min_price: 0,
-        status: 1
+        status: 1,
+        stock_display: 1
       }
     } else if (action === 'edit') {
       dialogTitle.value = '修改'
@@ -157,6 +162,25 @@ export default function () {
   const handleMinPriceChange = (value) => {
     dialogForm.min_price = value
   }
+  // 添加模态框确定事件
+  const handleAddOk = async () => {
+    const res = await goodsApi.addGoods(dialogForm.value)
+    if (res) {
+      ElNotification.success('新增成功')
+    }
+  }
+  // 添加模态框取消事件
+  const handleAddClose = () => {
+    dialogForm.value = {
+      unit: '件',
+      stock: 100,
+      min_stock: 10,
+      min_oprice: 0,
+      min_price: 0,
+      status: 1
+    }
+    drawer.value = false
+  }
   // 批量删除事件
   const handleSelectedDel = () => {
     alert('del')
@@ -166,7 +190,9 @@ export default function () {
     alert('up')
   }
   // 下架事件
-  const handleDown = () => {}
+  const handleDown = () => {
+    alert('up')
+  }
   // 恢复商品事件
   const handleRecover = () => {}
   // 彻底删除事件
@@ -176,6 +202,14 @@ export default function () {
     handleReadGoogs(id)
     dialogSkus.value = true
   }
+  // 添加模态框取消事件
+  const handleSkusClose = () => {
+    dialogSkus.value = false
+  }
+  // 添加模态框确定事件
+  const handleSkusOk = () => {
+    dialogSkus.value = false
+  }
   // 暴露出去
   return {
     goodsList,
@@ -184,6 +218,7 @@ export default function () {
     NavFormActions,
     total,
     drawer,
+    addRuleForm,
     dialogSkus,
     dialogForm,
     dialogTitle,
@@ -197,10 +232,15 @@ export default function () {
     handleCurrentChange,
     handleNavFormAction,
     handleOpenDialog,
+    handleAddOk,
+    handleAddClose,
+
     handleStockChange,
     handleMinStockChange,
     handleMinOpriceChange,
     handleMinPriceChange,
-    handleOpenSkusDialog
+    handleOpenSkusDialog,
+    handleSkusClose,
+    handleSkusOk
   }
 }

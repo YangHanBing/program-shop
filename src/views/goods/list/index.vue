@@ -105,9 +105,7 @@
         <el-drawer v-model="drawer" :title="dialogTitle" size="45%">
           <div>
             <el-form
-              ref="ruleFormRef"
               :model="dialogForm.value"
-              :rules="rules"
               label-width="100px"
               class="demo-ruleForm"
               status-icon
@@ -193,16 +191,27 @@
                   <el-radio :label="1">显示</el-radio>
                 </el-radio-group>
               </el-form-item>
+              <el-form-item label="是否上架" prop="stock_display">
+                <el-radio-group v-model="dialogForm.value.stock_display">
+                  <el-radio :label="0">放入仓库</el-radio>
+                  <el-radio :label="1">立即上架</el-radio>
+                </el-radio-group>
+              </el-form-item>
               <el-form-item>
-                <el-button type="primary">提交</el-button>
-                <el-button>取消</el-button>
+                <el-button type="primary" @click="handleAddOk">提交</el-button>
+                <el-button @click="handleAddClose">取消</el-button>
               </el-form-item>
             </el-form>
           </div>
         </el-drawer>
+        <!-- 选择规格模态框 -->
         <DialogForm
           :dialogVisible="dialogSkus"
           :title="dialogSkusTitle"
+          :addInfo="addInfo"
+          :dialogFormColumn="dialogSkusFormColumn"
+          @handleClose="handleSkusClose"
+          @handleAddOk="handleSkusOk"
         ></DialogForm>
       </el-tab-pane>
     </el-tabs>
@@ -215,6 +224,19 @@ import DialogForm from '@/components/DialogForm'
 import goodsNavData from './goodsNavData.js'
 import { Plus } from '@element-plus/icons-vue'
 import mixins from '@/mixins/goods.js'
+const dialogSkusFormColumn = reactive([
+  {
+    type: 'input',
+    prop: 'name',
+    label: '商品名称'
+  },
+  {
+    type: 'input',
+    prop: 'code',
+    label: '商品编码'
+  }
+])
+const addInfo = reactive({})
 const {
   goodsList,
   typeList,
@@ -235,11 +257,16 @@ const {
   handleCurrentChange,
   handleNavFormAction,
   handleOpenDialog,
+  handleAddOk,
+  handleAddClose,
+
   handleStockChange,
   handleMinStockChange,
   handleMinOpriceChange,
   handleMinPriceChange,
-  handleOpenSkusDialog
+  handleOpenSkusDialog,
+  handleSkusClose,
+  handleSkusOk
 } = mixins()
 const tab = ref('all')
 const page = ref(1)
@@ -247,7 +274,6 @@ const searchForm = reactive({
   title: '',
   category_id: ''
 })
-const rules = reactive([])
 const dialogSkusTitle = ref('设置商品规格')
 // 获取默认的全部商品列表
 getAllGoodsList(page.value, { tab: tab.value })

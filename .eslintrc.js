@@ -27,6 +27,7 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'vue/no-mutating-props': 'off',
     'vue/no-parsing-error': 'off',
-    'vue/valid-v-for': 'off'
+    'vue/valid-v-for': 'off',
+    'vue/no-deprecated-slot-attribute': 'off'
   }
 }

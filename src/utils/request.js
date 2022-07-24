@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 import {
-  ElMessage
+  ElNotification
 } from 'element-plus'
 // 引入封装订单loading加载
 import loading from './loading'
@@ -32,7 +32,8 @@ service.interceptors.response.use(
     return res
   },
   (err) => {
-    _showError(err.msg)
+    loading.close()
+    _showError(err.msg || err.response.data.msg)
     return Promise.reject(err)
   })
 // 统一传参为data
@@ -45,7 +46,7 @@ const request = (options) => {
 // 响应提示信息
 const _showError = (message) => {
   const info = message || '发生未知错误'
-  ElMessage.error(info)
+  ElNotification.error(info)
 }
 
 export default request
