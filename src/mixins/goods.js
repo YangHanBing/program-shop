@@ -174,6 +174,9 @@ export default function () {
   // 添加功能实现
   const handleAddGoods = async () => {
     const res = await goodsApi.addGoods(dialogForm.value)
+    getAllGoodsList(page.value, {
+      tab: tab.value
+    })
     if (res) {
       ElNotification.success('新增成功')
     }
@@ -195,8 +198,16 @@ export default function () {
     drawer.value = false
   }
   // 批量删除事件
-  const handleSelectedDel = () => {
-    alert('del')
+  const handleSelectedDel = async (id) => {
+    const res = await goodsApi.delGoods({
+      ids: [id]
+    })
+    if (res) {
+      ElNotification.success('删除成功')
+    }
+    getAllGoodsList(page.value, {
+      tab: tab.value
+    })
   }
   // 上架事件
   const handleUp = () => {
@@ -247,6 +258,7 @@ export default function () {
     handleOpenDialog,
     handleAddOk,
     handleAddClose,
+    handleSelectedDel,
 
     handleStockChange,
     handleMinStockChange,

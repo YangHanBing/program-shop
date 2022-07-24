@@ -83,7 +83,16 @@
                 >
                 <span>设置轮播图</span>
                 <span>商品详情</span>
-                <span>删除</span>
+                <el-popconfirm
+                  title="是否要删除改商品?"
+                  confirm-button-text="确认"
+                  cancel-button-text="取消"
+                  @confirm="handleSelectedDel(scope.row.id)"
+                >
+                  <template #reference>
+                    <span>删除</span>
+                  </template>
+                </el-popconfirm>
               </div>
             </template>
           </el-table-column>
@@ -259,6 +268,7 @@ const {
   handleOpenDialog,
   handleAddOk,
   handleAddClose,
+  handleSelectedDel,
 
   handleStockChange,
   handleMinStockChange,

@@ -25,7 +25,7 @@ const addGoods = (data) => {
 // 删除和批量删除接口
 const delGoods = (data) => {
   return request({
-    url: '/goods/delete_all',
+    url: '/admin/goods/delete_all',
     method: 'POST',
     data
   })
