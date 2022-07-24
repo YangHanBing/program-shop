@@ -22,8 +22,10 @@ export default function () {
   const typeList = reactive({})
   const navFormColumn = reactive([])
   const NavFormActions = reactive([])
-  const drawer = ref(false) // 模态框
+  const drawer = ref(false) // 添加模态框
+  const dialogSkus = ref(false) // 选择规格模态框
   const dialogTitle = ref('新增')
+  const goodsInfo = reactive({})
   // 获取默认的全部商品列表
   const getAllGoodsList = async (page, data) => {
     const res = await goodsApi.getGoodsList(page, data)
@@ -135,13 +137,25 @@ export default function () {
     drawer.value = true
   }
   // 获取商品信息
-  // const handleReadGoogs = async (id) => {
-  //   const res = await goodsApi.readGoods(id)
-  //   console.log(res)
-  // }
+  const handleReadGoogs = async (id) => {
+    const res = await goodsApi.readGoods(id)
+    goodsInfo.value = res
+  }
   // 总库存数量改变事件
   const handleStockChange = (value) => {
     dialogForm.stock = value
+  }
+  // 库存预警数量改变事件
+  const handleMinStockChange = (value) => {
+    dialogForm.min_stock = value
+  }
+  // 最低销售价数量改变事件
+  const handleMinOpriceChange = (value) => {
+    dialogForm.min_oprice = value
+  }
+  // 最低原价数量改变事件
+  const handleMinPriceChange = (value) => {
+    dialogForm.min_price = value
   }
   // 批量删除事件
   const handleSelectedDel = () => {
@@ -157,6 +171,11 @@ export default function () {
   const handleRecover = () => {}
   // 彻底删除事件
   const handleDelete = () => {}
+  // 选择商品规格事件
+  const handleOpenSkusDialog = (id) => {
+    handleReadGoogs(id)
+    dialogSkus.value = true
+  }
   // 暴露出去
   return {
     goodsList,
@@ -165,6 +184,7 @@ export default function () {
     NavFormActions,
     total,
     drawer,
+    dialogSkus,
     dialogForm,
     dialogTitle,
     getAllGoodsList,
@@ -177,6 +197,10 @@ export default function () {
     handleCurrentChange,
     handleNavFormAction,
     handleOpenDialog,
-    handleStockChange
+    handleStockChange,
+    handleMinStockChange,
+    handleMinOpriceChange,
+    handleMinPriceChange,
+    handleOpenSkusDialog
   }
 }

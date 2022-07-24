@@ -74,10 +74,13 @@
           >
             <template v-slot="scope">
               <div class="action">
+                <!-- {{ scope.row.goods_skus_card }} -->
                 <span @click="handleOpenDialog('edit', scope.row.id)"
                   >修改</span
                 >
-                <span>商品规格</span>
+                <span @click="handleOpenSkusDialog(scope.row.id)"
+                  >商品规格</span
+                >
                 <span>设置轮播图</span>
                 <span>商品详情</span>
                 <span>删除</span>
@@ -161,6 +164,7 @@
                 <el-input-number
                   v-model="dialogForm.value.min_stock"
                   controls-position="right"
+                  @change="handleMinStockChange"
                   :min="0"
                 />
                 <p class="numdesc">件</p>
@@ -170,6 +174,7 @@
                   v-model="dialogForm.value.min_oprice"
                   controls-position="right"
                   :min="0"
+                  @change="handleMinOpriceChange"
                 />
                 <p class="numdesc">元</p>
               </el-form-item>
@@ -178,6 +183,7 @@
                   v-model="dialogForm.value.min_price"
                   controls-position="right"
                   :min="0"
+                  @change="handleMinPriceChange"
                 />
                 <p class="numdesc">元</p>
               </el-form-item>
@@ -194,6 +200,10 @@
             </el-form>
           </div>
         </el-drawer>
+        <DialogForm
+          :dialogVisible="dialogSkus"
+          :title="dialogSkusTitle"
+        ></DialogForm>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -201,6 +211,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import NavForm from '@/components/NavForm'
+import DialogForm from '@/components/DialogForm'
 import goodsNavData from './goodsNavData.js'
 import { Plus } from '@element-plus/icons-vue'
 import mixins from '@/mixins/goods.js'
@@ -211,6 +222,7 @@ const {
   NavFormActions,
   total,
   drawer,
+  dialogSkus,
   dialogForm,
   dialogTitle,
   getAllGoodsList,
@@ -223,7 +235,11 @@ const {
   handleCurrentChange,
   handleNavFormAction,
   handleOpenDialog,
-  handleStockChange
+  handleStockChange,
+  handleMinStockChange,
+  handleMinOpriceChange,
+  handleMinPriceChange,
+  handleOpenSkusDialog
 } = mixins()
 const tab = ref('all')
 const page = ref(1)
@@ -232,6 +248,7 @@ const searchForm = reactive({
   category_id: ''
 })
 const rules = reactive([])
+const dialogSkusTitle = ref('设置商品规格')
 // 获取默认的全部商品列表
 getAllGoodsList(page.value, { tab: tab.value })
 // 获取分类列表
