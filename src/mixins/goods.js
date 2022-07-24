@@ -163,11 +163,24 @@ export default function () {
     dialogForm.min_price = value
   }
   // 添加模态框确定事件
-  const handleAddOk = async () => {
+  const handleAddOk = () => {
+    if (dialogTitle.value === '新增') {
+      handleAddGoods()
+    } else if (dialogTitle.value === '修改') {
+      handleEditGoods()
+    }
+    drawer.value = false
+  }
+  // 添加功能实现
+  const handleAddGoods = async () => {
     const res = await goodsApi.addGoods(dialogForm.value)
     if (res) {
       ElNotification.success('新增成功')
     }
+  }
+  // 修改功能实现
+  const handleEditGoods = async () => {
+    await goodsApi.editGoods(dialogForm.value.id, dialogForm.value)
   }
   // 添加模态框取消事件
   const handleAddClose = () => {
