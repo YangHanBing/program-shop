@@ -38,10 +38,10 @@ const editGoods = (id, data) => {
     data
   })
 }
-// 上架,下架接口
+// 上架,下架接口(禁止修改)
 const changeStatusGoods = (data) => {
   return request({
-    url: '/goods/changestatus',
+    url: '/admin/goods/changestatus',
     method: 'POST',
     data
   })

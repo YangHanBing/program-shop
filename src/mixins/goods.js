@@ -31,6 +31,7 @@ export default function () {
   const dialogTitle = ref('新增')
   const goodsInfo = reactive({})
   const ids = ref('')
+  const status = ref('')
   // 获取默认的全部商品列表
   const getAllGoodsList = async (page, data) => {
     const res = await goodsApi.getGoodsList(page, data)
@@ -117,8 +118,8 @@ export default function () {
   const handleNavFormAction = (action) => {
     if (action === 'add') return handleOpenDialog('add')
     if (action === 'del') return handleSelectedDel()
-    if (action === 'up') return handleUp()
-    if (action === 'down') return handleDown()
+    if (action === 'up') return handleChangeStatus()
+    if (action === 'down') return handleChangeStatus()
     if (action === 'delete') return handleDelete()
     if (action === 'recover') return handleRecover()
   }
@@ -199,8 +200,12 @@ export default function () {
     }
     drawer.value = false
   }
-  // 单个删除事件
+  // 删除事件
   const handleSelectedDel = async (id) => {
+    if (!id && !ids.value) {
+      ElNotification.error('ids不能为空')
+      return
+    }
     if (id) {
       const res = await goodsApi.delGoods({
         ids: [id]
@@ -222,17 +227,22 @@ export default function () {
       tab: tab.value
     })
   }
-  // 批量删除事件
+  // 商品选中事件
   const handleSelectionChange = (val) => {
-    ids.value = val.map(item => (item.id))
+    if (val.length > 1) {
+      status.value = val[0].status
+      ids.value = val.map(item => (item.id))
+    } else if (val.length < 1) {
+      status.value = ''
+      ids.value = ''
+    }
   }
-  // 上架事件
-  const handleUp = () => {
-    alert('up')
-  }
-  // 下架事件
-  const handleDown = () => {
-    alert('up')
+  // 上架,下架事件
+  const handleChangeStatus = async () => {
+    await goodsApi.changeStatusGoods({
+      ids: ids.value,
+      status: status.value
+    })
   }
   // 恢复商品事件
   const handleRecover = () => {}
