@@ -18,6 +18,7 @@
           ref="multipleTableRef"
           :data="goodsList.value"
           style="width: 100%"
+          @selection-change="handleSelectionChange"
         >
           <el-table-column align="center" type="selection" width="55" />
           <el-table-column label="商品" width="300">
@@ -269,6 +270,7 @@ const {
   handleAddOk,
   handleAddClose,
   handleSelectedDel,
+  handleSelectionChange,
 
   handleStockChange,
   handleMinStockChange,

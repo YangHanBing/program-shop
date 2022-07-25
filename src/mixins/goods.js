@@ -30,6 +30,7 @@ export default function () {
   const dialogSkus = ref(false) // 选择规格模态框
   const dialogTitle = ref('新增')
   const goodsInfo = reactive({})
+  const ids = ref('')
   // 获取默认的全部商品列表
   const getAllGoodsList = async (page, data) => {
     const res = await goodsApi.getGoodsList(page, data)
@@ -169,7 +170,6 @@ export default function () {
     } else if (dialogTitle.value === '修改') {
       handleEditGoods()
     }
-    drawer.value = false
   }
   // 添加功能实现
   const handleAddGoods = async () => {
@@ -179,11 +179,13 @@ export default function () {
     })
     if (res) {
       ElNotification.success('新增成功')
+      drawer.value = false
     }
   }
   // 修改功能实现
   const handleEditGoods = async () => {
     await goodsApi.editGoods(dialogForm.value.id, dialogForm.value)
+    drawer.value = false
   }
   // 添加模态框取消事件
   const handleAddClose = () => {
@@ -197,17 +199,32 @@ export default function () {
     }
     drawer.value = false
   }
-  // 批量删除事件
+  // 单个删除事件
   const handleSelectedDel = async (id) => {
-    const res = await goodsApi.delGoods({
-      ids: [id]
-    })
-    if (res) {
-      ElNotification.success('删除成功')
+    if (id) {
+      const res = await goodsApi.delGoods({
+        ids: [id]
+      })
+      if (res) {
+        ElNotification.success('删除成功')
+      }
+    }
+    if (ids.value) {
+      id = ids.value
+      const res = await goodsApi.delGoods({
+        ids: id
+      })
+      if (res) {
+        ElNotification.success('删除成功')
+      }
     }
     getAllGoodsList(page.value, {
       tab: tab.value
     })
+  }
+  // 批量删除事件
+  const handleSelectionChange = (val) => {
+    ids.value = val.map(item => (item.id))
   }
   // 上架事件
   const handleUp = () => {
@@ -259,6 +276,7 @@ export default function () {
     handleAddOk,
     handleAddClose,
     handleSelectedDel,
+    handleSelectionChange,
 
     handleStockChange,
     handleMinStockChange,
